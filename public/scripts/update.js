@@ -9,6 +9,10 @@ import {
   increment,
   onValue,
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDe5JT2xVK-_a7Jm8KZPBGA_gx_x7dFa3o",
@@ -24,6 +28,17 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.body.classList.remove("d-none");
+  }
+  else {
+    window.location.replace("/public/login.html");
+  }
+});
+
 const db = getDatabase(app);
 const dbRef = ref(db);
 
