@@ -1,0 +1,14 @@
+@font-face {
+    font-family: digital;
+    src: url(digital-7.ttf);
+}
+
+.score {
+    background-color: #000;
+    color: #f00;
+    padding: .05em .1em;
+    font-family: digital;
+    font-size: 3.5rem;
+    border-radius: 10px;
+    margin: .1em 0;
+}
