@@ -52,9 +52,30 @@ function showToast(message, error = false) {
   toastBootstrap.show();
 }
 
+function showAnimation(animation) {
+  showSpinner();
+  set(ref(db, "animation"), animation)
+    .then(() => {
+      hideSpinner();
+      showToast("Animation started!");
+
+      // Clear animation after 5 seconds
+      setTimeout(() => {
+        set(ref(db, "animation"), "");
+      }, 5000);
+    })
+    .catch(() => {
+      hideSpinner();
+      showToast("An error occurred", true);
+    });
+}
+
 const teams = document.getElementsByClassName("team-name");
 const team1ScoreInput = document.getElementById("team-1-score-input");
 const team2ScoreInput = document.getElementById("team-2-score-input");
+const teamSelect = document.getElementById("team-select");
+const outgoingElement = document.getElementById("outgoing");
+const substituteElement = document.getElementById("substitute");
 
 // Update data fields on value change
 onValue(ref(db, "/"), (snapshot) => {
@@ -62,6 +83,12 @@ onValue(ref(db, "/"), (snapshot) => {
   if (data.teamNames && data.teamNames.length === 2) {
     teams[0].value = data.teamNames[0];
     teams[1].value = data.teamNames[1];
+
+    // Update team options
+    teamSelect.innerHTML = `
+      <option>${data.teamNames[0]}</option>
+      <option>${data.teamNames[1]}</option>
+    `;
   }
   if (data.goals1) {
     team1ScoreInput.value = data.goals1;
@@ -72,6 +99,12 @@ onValue(ref(db, "/"), (snapshot) => {
     team2ScoreInput.value = data.goals2;
   } else {
     team2ScoreInput.value = 0;
+  }
+
+  if (data.showSubstitution) {
+    teamSelect.value = data.substitutionTeam;
+    outgoingElement.value = data.outgoing;
+    substituteElement.value = data.substitute;
   }
 });
 
@@ -118,6 +151,7 @@ team1Goal.addEventListener(
               hideSpinner();
               const teamName = teams[0].value.trim() || "Team 1";
               showToast(`Added 1 goal for ${teamName}!`);
+              showAnimation("goal");
             })
             .catch(() => {
               hideSpinner();
@@ -130,6 +164,7 @@ team1Goal.addEventListener(
               hideSpinner();
               const teamName = teams[0].value.trim() || "Team 1";
               showToast(`Added 1 goal for ${teamName}!`);
+              showAnimation("goal");
             })
             .catch(() => {
               hideSpinner();
@@ -160,6 +195,7 @@ team2Goal.addEventListener(
               hideSpinner();
               const teamName = teams[1].value.trim() || "Team 2";
               showToast(`Added 1 goal for ${teamName}!`);
+              showAnimation("goal");
             })
             .catch(() => {
               hideSpinner();
@@ -172,6 +208,7 @@ team2Goal.addEventListener(
               hideSpinner();
               const teamName = teams[1].value.trim() || "Team 2";
               showToast(`Added 1 goal for ${teamName}!`);
+              showAnimation("goal");
             })
             .catch(() => {
               hideSpinner();
@@ -227,6 +264,107 @@ updateGoals.addEventListener(
         hideSpinner();
         showToast("An error occurred", true);
       });
+  },
+  false
+);
+
+// Show substitution
+const showSubstitution = document.getElementById("show-substitution");
+showSubstitution.addEventListener(
+  "click",
+  () => {
+    const team = teamSelect.value;
+    if (team === "") {
+      showToast("Please select a team for substitution", true);
+      return;
+    }
+    const outgoing = outgoingElement.value.trim();
+    if (outgoing === "") {
+      showToast("Please enter the outgoing jersey number", true);
+      return;
+    }
+    const substitute = substituteElement.value.trim();
+    if (substitute === "") {
+      showToast("Please enter the substitute jersey number", true);
+      return;
+    }
+
+    showSpinner();
+    update(dbRef, {
+      substitutionTeam: team,
+      outgoing: outgoing,
+      substitute: substitute,
+      showSubstitution: true,
+    })
+      .then(() => {
+        hideSpinner();
+        showToast("Substitution Shown!");
+      })
+      .catch(() => {
+        hideSpinner();
+        showToast("An error occurred", true);
+      });
+  },
+  false
+);
+
+// Hide substitution
+const hideSubstitution = document.getElementById("hide-substitution");
+hideSubstitution.addEventListener(
+  "click",
+  () => {
+    teamSelect.value = "";
+    outgoingElement.value = "";
+    substituteElement.value = "";
+
+    showSpinner();
+    update(dbRef, {
+      substitutionTeam: "",
+      outgoing: "",
+      substitute: "",
+      showSubstitution: false,
+    })
+      .then(() => {
+        hideSpinner();
+        showToast("Substitution Hidden!");
+      })
+      .catch(() => {
+        hideSpinner();
+        showToast("An error occurred", true);
+      });
+  },
+  false
+);
+
+// Show Animations
+const animationButtons = document.getElementById("animation-buttons");
+animationButtons.addEventListener(
+  "click",
+  (event) => {
+    const target = event.target;
+    if (target.classList.contains("btn")) {
+      showAnimation(target.textContent);
+    }
+  },
+  false
+);
+
+const customModal = new bootstrap.Modal("#customModal");
+
+// Show Custom Animation
+const showCustomAnimation = document.getElementById("show-custom-animation");
+showCustomAnimation.addEventListener(
+  "click",
+  () => {
+    const customMessage = document.getElementById("custom-message");
+    const message = customMessage.value.trim();
+    if (message) {
+      showAnimation(message);
+      customModal.hide();
+      customMessage.value = "";
+    } else {
+      showToast("Please enter a message", true);
+    }
   },
   false
 );

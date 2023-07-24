@@ -21,18 +21,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const teamNames = document.getElementsByClassName("team-name");
-const scores = document.getElementsByClassName("score");
-
 // Update data fields on value change
 onValue(ref(db, "/"), (snapshot) => {
   const data = snapshot.val();
+
   // Update team names
+  const teamNames = document.getElementsByClassName("team-name");
   if (data.teamNames && data.teamNames.length === 2) {
     teamNames[0].textContent = data.teamNames[0];
     teamNames[1].textContent = data.teamNames[1];
   }
+
   // Update scores
+  const scores = document.getElementsByClassName("score");
   if (data.goals1) {
     scores[0].textContent = data.goals1;
   } else {
@@ -43,13 +44,106 @@ onValue(ref(db, "/"), (snapshot) => {
   } else {
     scores[1].textContent = 0;
   }
+
+  // Show substitution
+  const substitutionTeam = document.getElementById("substitution-team");
+  if (data.substitutionTeam) {
+    substitutionTeam.textContent = " in " + data.substitutionTeam;
+  }
+
+  const outgoing = document.getElementById("outgoing");
+  if (data.outgoing) {
+    outgoing.textContent = data.outgoing;
+  }
+
+  const substitute = document.getElementById("substitute");
+  if (data.substitute) {
+    substitute.textContent = data.substitute;
+  }
+
+  const substitutionContainer = document.getElementById(
+    "substitution-container"
+  );
+  if (data.showSubstitution) {
+    substitutionContainer.style.display = "flex";
+  } else {
+    substitutionContainer.style.display = "none";
+  }
+
+  // Show animation
+  const animationContainer = document.getElementById("animation-container");
+  if (data.animation) {
+    if (data.animation === "goal") {
+      animationContainer.innerHTML = `
+          <div id="animation" class="animate__animated animate__fadeIn animate__fast green-bg">
+            <div id="animation-content">
+                <img src="images/football.png" alt="" id="animation-img"
+                    class="animate__animated animate__fadeInBottomLeft animate__fast">
+                <div id="animation-text" class="animate__animated animate__fadeIn animate__fast animate__delay-1s">
+                    <span class="animate__animated animate__zoomInDown animate__fast animate__delay-1s">GOAAAL!</span>
+                </div>
+            </div>
+          </div>
+        `;
+      // Remove animation after 5 seconds
+      setTimeout(() => {
+        animationContainer.innerHTML = `
+            <div id="animation" class="animate__animated animate__fadeOut animate__fast animate__delay-1s green-bg">
+              <div id="animation-content">
+                  <img src="images/football.png" alt="" id="animation-img"
+                      class="animate__animated animate__fadeOutTopRight animate__fast animate__delay-1s">
+                  <div id="animation-text" class="animate__animated animate__fadeOut animate__fast">
+                      <span class="animate__animated animate__zoomOutDown animate__fast">GOAAAL!</span>
+                  </div>
+              </div>
+            </div>
+          `;
+      }, 5000);
+    } else {
+      var bg = "blue-bg";
+      if (
+        [
+          "Miss!",
+          "Hand Ball!",
+          "Red Card!",
+          "Offside!",
+          "Penalty!",
+          "Foul!",
+          "Outside!",
+        ].includes(data.animation)
+      ) {
+        bg = "red-bg";
+      } else if (["Yellow Card!"].includes(data.animation)) {
+        bg = "orange-bg";
+      } else if (
+        ["What a save!", "Free Kick!", "Corner Kick!", "Goal Kick!"].includes(
+          data.animation
+        )
+      ) {
+        bg = "green-bg";
+      }
+
+      animationContainer.innerHTML = `
+          <div id="animation" class="animate__animated animate__fadeIn animate__fast ${bg}">
+            <div id="animation-content">
+                <div id="animation-text" class="animate__animated animate__fadeIn animate__fast">
+                    <span class="animate__animated animate__zoomInDown animate__fast">${data.animation}</span>
+                </div>
+            </div>
+          </div>
+        `;
+      // Remove animation after 5 seconds
+      setTimeout(() => {
+        animationContainer.innerHTML = `
+            <div id="animation" class="animate__animated animate__fadeOut animate__fast ${bg}">
+              <div id="animation-content">
+                  <div id="animation-text" class="animate__animated animate__fadeOut animate__fast">
+                      <span class="animate__animated animate__zoomOutDown animate__fast">${data.animation}</span>
+                  </div>
+              </div>
+            </div>
+          `;
+      }, 5000);
+    }
+  }
 });
-
-// Show Live Time
-const liveTime = document.getElementById("live-time");
-liveTime.textContent = new Date().toLocaleTimeString();
-
-// Update live time every second
-setInterval(() => {
-  liveTime.textContent = new Date().toLocaleTimeString();
-}, 1000);
