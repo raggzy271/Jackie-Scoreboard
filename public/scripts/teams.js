@@ -22,8 +22,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 const teamNames = document.getElementsByClassName("team-name");
-const scores = document.getElementsByClassName("score");
-const goalScorers = document.getElementsByClassName("goal-scorers");
+const teamList = document.getElementsByClassName("team-list");
 
 // Update data fields on value change
 onValue(ref(db, "/"), (snapshot) => {
@@ -33,47 +32,18 @@ onValue(ref(db, "/"), (snapshot) => {
     teamNames[0].textContent = data.teamNames[0];
     teamNames[1].textContent = data.teamNames[1];
   }
-  // Update scores
-  if (data.goals1) {
-    scores[0].textContent = data.goals1;
-  } else {
-    scores[0].textContent = 0;
+  // Update team list
+  teamList[0].innerHTML = "";
+  if (data.team1Players) {
+    data.team1Players.forEach((player) => {
+      teamList[0].innerHTML += `<li>${player}</li>`;
+    });
   }
-  if (data.goals2) {
-    scores[1].textContent = data.goals2;
-  } else {
-    scores[1].textContent = 0;
-  }
-  // Update scorers
-  goalScorers[0].innerHTML = "";
-  if (data.team1Scorers && data.team1Scorers.length > 0) {
-    for (var i = 0; i < data.team1Scorers.length; i++) {
-      goalScorers[0].innerHTML += `
-      <li>
-        <span>${i + 1}. ${data.team1Scorers[i]}</span>
-        <span>${
-          data.team1ScorerTimes && data.team1ScorerTimes[i]
-            ? data.team1ScorerTimes[i]
-            : "-"
-        }</span>
-      </li>
-      `;
-    }
-  }
-  goalScorers[1].innerHTML = "";
-  if (data.team2Scorers && data.team2Scorers.length > 0) {
-    for (var i = 0; i < data.team2Scorers.length; i++) {
-      goalScorers[1].innerHTML += `
-      <li>
-        <span>${i + 1}. ${data.team2Scorers[i]}</span>
-        <span>${
-          data.team2ScorerTimes && data.team2ScorerTimes[i]
-            ? data.team2ScorerTimes[i]
-            : "-"
-        }</span>
-      </li>
-      `;
-    }
+  teamList[1].innerHTML = "";
+  if (data.team2Players) {
+    data.team2Players.forEach((player) => {
+      teamList[1].innerHTML += `<li>${player}</li>`;
+    });
   }
 });
 
