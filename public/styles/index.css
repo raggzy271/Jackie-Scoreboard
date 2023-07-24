@@ -11,6 +11,10 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     min-height: 100vh;
+    font-family: 'Raleway', sans-serif;
+    color: #FF5733;
+    -webkit-text-stroke: 5px #000;
+    text-align: center;
 }
 
 main {
@@ -26,14 +30,23 @@ header {
     align-items: center;
 }
 
-img {
-    width: 7vw;
-    margin: 0 1.5em;
+#sgc-logo {
+    width: 16vw;
+    margin-right: 1.5em;
+}
+
+#jackie-logo {
+    width: 13vw;
+    margin-left: 1.5em;
+
 }
 
 h1 {
-    font-family: 'Bungee Spice', cursive;
-    font-size: 7vh;
+    font-size: 10vh;
+}
+
+sup {
+    font-size: 6vh;
 }
 
 #scores {
@@ -42,67 +55,29 @@ h1 {
 
 .team {
     width: 50%;
-    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#live-time {
-    font-family: digital;
-    font-size: 10vh;
-    color: #f00;
-    text-align: center;
-    position: fixed;
-    top: 45%;
-    left: 50%;
-    background-color: #000;
-    padding: .1em;
-    border-radius: 5px;
-    transform: translate(-50%, -50%);
-}
 
 h2 {
-    font-family: 'Raleway', sans-serif;
-    font-size: 7vh;
+    font-size: 20vh;
 }
 
 .score {
     width: 30vh;
-    font-size: 25vh;
-    text-align: center;
+    font-size: 30vh;
 }
 
 h3 {
-    font-family: 'Raleway', sans-serif;
-    font-size: 5vh;
+    font-size: 7.25vh;
 }
 
-.scorers {
-    max-height: 25vh;
-    overflow-y: auto;
-}
-
-ul {
-    margin-top: .3em;
-    font-size: 5vh;
-    font-family: 'Raleway', sans-serif;
-    list-style-position: inside;
-    max-height: 25vh;
-    overflow-y: auto;
-    width: 90%;
-    padding-right: .5em;
-    list-style: none;
-}
-
-li {
-    display: flex;
-    justify-content: space-between;
-}
 
 /* width */
 ::-webkit-scrollbar {
-    width: 7px;
+    width: 2px;
 }
 
 /* Track */
