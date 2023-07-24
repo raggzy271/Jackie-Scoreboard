@@ -23,7 +23,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    window.location.replace("/public/update.html");
+    window.location.replace("/update.html");
   } else {
     document.body.classList.remove("d-none");
   }

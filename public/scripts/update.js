@@ -35,7 +35,7 @@ onAuthStateChanged(auth, (user) => {
     document.body.classList.remove("d-none");
   }
   else {
-    window.location.replace("/public/login.html");
+    window.location.replace("/login.html");
   }
 });
 
