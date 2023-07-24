@@ -13,3 +13,7 @@ input.score {
     background-color: rgba(0,0,0, 0.5);
     z-index: 100;
 }
+
+.player-name, .time {
+    width: 45%;
+}
