@@ -116,17 +116,22 @@ h3 {
 
 #substitution {
     font-size: 30vh;
-    font-family: digital;
     margin: .1em 0;
+    display: flex;
+    justify-content: center;
 }
 
-#outgoing {
+#outgoing-container {
     color: #FF3131;
-    padding: .2em;
+    margin-right: .5em;
 }
 
-#substitute {
+#substitute-container {
     color: #39FF14;
+}
+
+#outgoing, #substitute {
+    font-family: digital;
     padding: .2em;
 }
 

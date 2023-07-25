@@ -42,12 +42,12 @@
                 <div class="accordion-body">
                     <div class="d-flex justify-content-center">
                         <div class="d-flex flex-column me-5">
-                            <h3>Team 1</h3>
+                            <h3 class="team-name-h3 text-center">Team 1</h3>
                             <input type="number" min="0" class="score text-center" id="team-1-score-input">
                             <button type="button" class="btn btn-success" id="team-1-goal">+1 Goal</button>
                         </div>
                         <div class="d-flex flex-column">
-                            <h3>Team 2</h3>
+                            <h3 class="team-name-h3 text-center">Team 2</h3>
                             <input type="number" min="0" class="score text-center" id="team-2-score-input">
                             <button type="button" class="btn btn-success" id="team-2-goal">+1 Goal</button>
                         </div>
@@ -72,11 +72,11 @@
                     </div>
                     <div class="d-flex mb-3">
                         <div class="w-50 me-3">
-                            <label class="form-label">Outgoing Jersey No.</label>
+                            <label class="form-label">Out</label>
                             <input type="number" id="outgoing" class="form-control">
                         </div>
                         <div class="w-50">
-                            <label class="form-label">Substitute Jersey No.</label>
+                            <label class="form-label">In</label>
                             <input type="number" id="substitute" class="form-control">
                         </div>
                     </div>
@@ -107,6 +107,8 @@
                         <button class="btn btn-danger m-1">Penalty!</button>
                         <button class="btn btn-danger m-1">Foul!</button>
                         <button class="btn btn-danger m-1">Outside!</button>
+                        <button class="btn btn-primary m-1">Throw!</button>
+                        <button class="btn btn-primary m-1">HALF TIME</button>
                     </div>
                     <button type="button" class="btn btn-primary m-1 mt-3" data-bs-toggle="modal"
                         data-bs-target="#customModal">Custom Message...</button>

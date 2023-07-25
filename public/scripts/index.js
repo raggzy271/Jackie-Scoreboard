@@ -48,7 +48,7 @@ onValue(ref(db, "/"), (snapshot) => {
   // Show substitution
   const substitutionTeam = document.getElementById("substitution-team");
   if (data.substitutionTeam) {
-    substitutionTeam.textContent = " in " + data.substitutionTeam;
+    substitutionTeam.textContent = data.substitutionTeam;
   }
 
   const outgoing = document.getElementById("outgoing");
@@ -127,7 +127,7 @@ onValue(ref(db, "/"), (snapshot) => {
           <div id="animation" class="animate__animated animate__fadeIn animate__fast ${bg}">
             <div id="animation-content">
                 <div id="animation-text" class="animate__animated animate__fadeIn animate__fast">
-                    <span class="animate__animated animate__zoomInDown animate__fast">${data.animation}</span>
+                    <span class="animate__animated animate__zoomInDown animate__fast">${data.animation.toUpperCase()}</span>
                 </div>
             </div>
           </div>
@@ -138,7 +138,7 @@ onValue(ref(db, "/"), (snapshot) => {
             <div id="animation" class="animate__animated animate__fadeOut animate__fast ${bg}">
               <div id="animation-content">
                   <div id="animation-text" class="animate__animated animate__fadeOut animate__fast">
-                      <span class="animate__animated animate__zoomOutDown animate__fast">${data.animation}</span>
+                      <span class="animate__animated animate__zoomOutDown animate__fast">${data.animation.toUpperCase()}</span>
                   </div>
               </div>
             </div>

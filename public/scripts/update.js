@@ -33,8 +33,7 @@ const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
   if (user) {
     document.body.classList.remove("d-none");
-  }
-  else {
+  } else {
     window.location.replace("/login.html");
   }
 });
@@ -104,6 +103,10 @@ onValue(ref(db, "/"), (snapshot) => {
       <option>${data.teamNames[0]}</option>
       <option>${data.teamNames[1]}</option>
     `;
+
+    const teamNameH3 = document.getElementsByClassName("team-name-h3");
+    teamNameH3[0].textContent = data.teamNames[0];
+    teamNameH3[1].textContent = data.teamNames[1];
   }
   if (data.goals1) {
     team1ScoreInput.value = data.goals1;
