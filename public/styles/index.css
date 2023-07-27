@@ -67,8 +67,9 @@ h2 {
 }
 
 .score {
-    width: 30vh;
+    width: 33vh;
     font-size: 30vh;
+    line-height: 1em;
 }
 
 h3 {
@@ -131,8 +132,7 @@ h3 {
 }
 
 #outgoing, #substitute {
-    font-family: digital;
-    padding: .2em;
+    font-family: 'Arial Black';
 }
 
 .blue-bg {
