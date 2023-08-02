@@ -7,7 +7,7 @@
     <title>Jackie Scoreboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/common.css">
     <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -16,9 +16,9 @@
 <body>
     <main>
         <header>
-            <img src="images/sgc-logo.jpg" alt="" id="sgc-logo">
+            <img src="images/sgc-logo.jpg" alt="" class="sgc-logo">
             <h1>50<sup>th</sup> JACKIE FOOTBALL TOURNAMENT</h1>
-            <img src="images/jackie-logo.png" alt="" id="jackie-logo">
+            <img src="images/jackie-logo.png" alt="" class="jackie-logo">
         </header>
         <section id="scores">
             <div class="team">
@@ -34,17 +34,20 @@
         </section>
     </main>
     <div id="substitution-container">
-        <div>
-            <h2 id="substitution-team"></h2>
-            <div id="substitution">
-                <div id="outgoing-container">
-                    <h2>OUT</h2>
-                    <div id="outgoing"></div>
-                </div>
-                <div id="substitute-container">
-                    <h2>IN</h2>
-                    <div id="substitute"></div>
-                </div>
+        <header id="substitution-header">
+            <img src="images/sgc-logo.jpg" alt="" class="sgc-logo substitution-logo">
+            <h1 id="substitution-heading">SUBSTITUTION</h1>
+            <img src="images/jackie-logo.png" alt="" class="jackie-logo substitution-logo">
+        </header>
+        <h2 id="substitution-team"></h2>
+        <div id="substitution">
+            <div id="outgoing-container">
+                <h2>OUT</h2>
+                <div id="outgoing"></div>
+            </div>
+            <div id="substitute-container">
+                <h2>IN</h2>
+                <div id="substitute"></div>
             </div>
         </div>
     </div>

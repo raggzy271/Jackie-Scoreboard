@@ -65,7 +65,7 @@ onValue(ref(db, "/"), (snapshot) => {
     "substitution-container"
   );
   if (data.showSubstitution) {
-    substitutionContainer.style.display = "flex";
+    substitutionContainer.style.display = "block";
   } else {
     substitutionContainer.style.display = "none";
   }

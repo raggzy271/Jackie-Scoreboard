@@ -87,7 +87,7 @@ function showAnimation(animation) {
 const teams = document.getElementsByClassName("team-name");
 const team1ScoreInput = document.getElementById("team-1-score-input");
 const team2ScoreInput = document.getElementById("team-2-score-input");
-const teamSelect = document.getElementById("team-select");
+const substitutionTeamInput = document.getElementById("substitution-team-input");
 const outgoingElement = document.getElementById("outgoing");
 const substituteElement = document.getElementById("substitute");
 
@@ -97,12 +97,6 @@ onValue(ref(db, "/"), (snapshot) => {
   if (data.teamNames && data.teamNames.length === 2) {
     teams[0].value = data.teamNames[0];
     teams[1].value = data.teamNames[1];
-
-    // Update team options
-    teamSelect.innerHTML = `
-      <option>${data.teamNames[0]}</option>
-      <option>${data.teamNames[1]}</option>
-    `;
 
     const teamNameH3 = document.getElementsByClassName("team-name-h3");
     teamNameH3[0].textContent = data.teamNames[0];
@@ -120,7 +114,7 @@ onValue(ref(db, "/"), (snapshot) => {
   }
 
   if (data.showSubstitution) {
-    teamSelect.value = data.substitutionTeam;
+    substitutionTeamInput.value = data.substitutionTeam;
     outgoingElement.value = data.outgoing;
     substituteElement.value = data.substitute;
   }
@@ -291,9 +285,9 @@ const showSubstitution = document.getElementById("show-substitution");
 showSubstitution.addEventListener(
   "click",
   () => {
-    const team = teamSelect.value;
+    const team = substitutionTeamInput.value;
     if (team === "") {
-      showToast("Please select a team for substitution", true);
+      showToast("Please enter the substitution team", true);
       return;
     }
     const outgoing = outgoingElement.value.trim();
@@ -331,7 +325,7 @@ const hideSubstitution = document.getElementById("hide-substitution");
 hideSubstitution.addEventListener(
   "click",
   () => {
-    teamSelect.value = "";
+    substitutionTeamInput.value = "";
     outgoingElement.value = "";
     substituteElement.value = "";
 
