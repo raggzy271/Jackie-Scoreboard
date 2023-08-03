@@ -97,6 +97,25 @@ h3 {
     background: #555;
 }
 
+#off-match {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    -webkit-text-stroke: none;
+    padding: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#off-match-jackie-logo {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 #substitution-container {
     position: fixed;
     top: 0;
@@ -112,7 +131,8 @@ h3 {
     padding-top: .1em;
 }
 
-#substitution-heading, #substitution-team {
+#substitution-heading,
+#substitution-team {
     color: #ffff00;
 }
 
@@ -206,4 +226,74 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 900px) {
+    body {
+        -webkit-text-stroke: 1px #000;
+    }
+
+    .sgc-logo,
+    .jackie-logo {
+        display: none;
+    }
+
+    h1 {
+        font-size: 3rem;
+        -webkit-text-stroke: 1px #000;
+        margin-bottom: .5em;
+    }
+
+    sup {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 5rem;
+    }
+
+    .score {
+        width: 150px;
+        font-size: 150px;
+    }
+
+    h3 {
+        font-size: 2rem;
+        -webkit-text-stroke: 1px #000;
+    }
+
+    #substitution-container {
+        display: none !important;
+    }
+
+    #animation-text {
+        font-size: 5rem;
+    }
+}
+
+@media (max-width: 650px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    sup {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .score {
+        width: 100px;
+        font-size: 100px;
+    }
+
+    #substitution-team {
+        font-size: 2rem;
+    }
+
+    #animation-text {
+        font-size: 3.5rem;
+    }
 }

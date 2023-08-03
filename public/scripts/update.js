@@ -84,41 +84,77 @@ function showAnimation(animation) {
     });
 }
 
+const accordion = document.getElementById("accordion");
+const matchSwitch = document.getElementById("match-switch");
 const teams = document.getElementsByClassName("team-name");
 const team1ScoreInput = document.getElementById("team-1-score-input");
 const team2ScoreInput = document.getElementById("team-2-score-input");
-const substitutionTeamInput = document.getElementById("substitution-team-input");
+const substitutionTeamInput = document.getElementById(
+  "substitution-team-input"
+);
 const outgoingElement = document.getElementById("outgoing");
 const substituteElement = document.getElementById("substitute");
 
-// Update data fields on value change
+// Update page on value change
 onValue(ref(db, "/"), (snapshot) => {
   const data = snapshot.val();
-  if (data.teamNames && data.teamNames.length === 2) {
-    teams[0].value = data.teamNames[0];
-    teams[1].value = data.teamNames[1];
 
-    const teamNameH3 = document.getElementsByClassName("team-name-h3");
-    teamNameH3[0].textContent = data.teamNames[0];
-    teamNameH3[1].textContent = data.teamNames[1];
-  }
-  if (data.goals1) {
-    team1ScoreInput.value = data.goals1;
+  if (data.matchOff) {
+    matchSwitch.checked = false;
+    accordion.classList.add("d-none");
   } else {
-    team1ScoreInput.value = 0;
-  }
-  if (data.goals2) {
-    team2ScoreInput.value = data.goals2;
-  } else {
-    team2ScoreInput.value = 0;
-  }
+    matchSwitch.checked = true;
+    accordion.classList.remove("d-none");
+    if (data.teamNames && data.teamNames.length === 2) {
+      teams[0].value = data.teamNames[0];
+      teams[1].value = data.teamNames[1];
 
-  if (data.showSubstitution) {
-    substitutionTeamInput.value = data.substitutionTeam;
-    outgoingElement.value = data.outgoing;
-    substituteElement.value = data.substitute;
+      const teamNameH3 = document.getElementsByClassName("team-name-h3");
+      teamNameH3[0].textContent = data.teamNames[0];
+      teamNameH3[1].textContent = data.teamNames[1];
+    }
+    if (data.goals1) {
+      team1ScoreInput.value = data.goals1;
+    } else {
+      team1ScoreInput.value = 0;
+    }
+    if (data.goals2) {
+      team2ScoreInput.value = data.goals2;
+    } else {
+      team2ScoreInput.value = 0;
+    }
+
+    if (data.showSubstitution) {
+      substitutionTeamInput.value = data.substitutionTeam;
+      outgoingElement.value = data.outgoing;
+      substituteElement.value = data.substitute;
+    }
   }
 });
+
+// Toggle matchOff on match switch
+matchSwitch.addEventListener(
+  "change",
+  () => {
+    showSpinner();
+    update(ref(db), {
+      matchOff: !matchSwitch.checked,
+    })
+      .then(() => {
+        hideSpinner();
+        if (matchSwitch.checked) {
+          showToast("Match started!");
+        } else {
+          showToast("Match stopped!");
+        }
+      })
+      .catch(() => {
+        hideSpinner();
+        showToast("An error occurred", true);
+      });
+  },
+  false
+);
 
 // Update team names
 const updateTeamNames = document.getElementById("update-team-names");

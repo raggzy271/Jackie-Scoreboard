@@ -21,9 +21,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Update data fields on value change
+// Update page on value change
 onValue(ref(db, "/"), (snapshot) => {
   const data = snapshot.val();
+
+  // Show logo when match is off
+  const offMatch = document.getElementById("off-match");
+  if (data.matchOff) {
+    offMatch.style.display = "flex";
+  }
+  else {
+    offMatch.style.display = "none";
+  }
 
   // Update team names
   const teamNames = document.getElementsByClassName("team-name");
