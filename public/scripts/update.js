@@ -96,9 +96,10 @@ const outgoingElement = document.getElementById("outgoing");
 const substituteElement = document.getElementById("substitute");
 
 // Update page on value change
+showSpinner();
 onValue(ref(db, "/"), (snapshot) => {
+  hideSpinner();
   const data = snapshot.val();
-
   if (data.matchOff) {
     matchSwitch.checked = false;
     accordion.classList.add("d-none");
