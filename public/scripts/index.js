@@ -29,8 +29,7 @@ onValue(ref(db, "/"), (snapshot) => {
   const offMatch = document.getElementById("off-match");
   if (data.matchOff) {
     offMatch.style.display = "flex";
-  }
-  else {
+  } else {
     offMatch.style.display = "none";
   }
 
@@ -153,6 +152,27 @@ onValue(ref(db, "/"), (snapshot) => {
             </div>
           `;
       }, 5000);
+    }
+  }
+
+  // Show/hide pools
+  const poolsContainer = document.getElementById("pools-container");
+  if (data.showPools) {
+    poolsContainer.style.display = "flex";
+  } else {
+    poolsContainer.style.display = "none";
+  }
+
+  const pools = document.getElementById("pools");
+  pools.innerHTML = "";
+  if (data.pools && data.pools.length > 0) {
+    for (const pool of data.pools) {
+      pools.innerHTML += `
+    <div class="pool">
+        <h2 class="pool-heading">${pool.name}</h2>
+        <p class="pool-p">${pool.team}</p>
+    </div>
+    `;
     }
   }
 });

@@ -8,6 +8,10 @@ input.score {
     outline: none;
 }
 
+.delete-pool {
+    line-height: 0;
+}
+
 #spinner-container {
     position: fixed;
     top: 0;
@@ -16,8 +20,4 @@ input.score {
     height: 100vh;
     background-color: rgba(0,0,0, 0.5);
     z-index: 100;
-}
-
-.player-name, .time {
-    width: 45%;
 }

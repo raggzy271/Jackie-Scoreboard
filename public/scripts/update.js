@@ -84,7 +84,29 @@ function showAnimation(animation) {
     });
 }
 
-const accordion = document.getElementById("accordion");
+const poolsElement = document.getElementById("pools");
+
+function addPool(name, team) {
+  const pool = document.createElement("div");
+  pool.classList.add("pool", "d-flex", "align-items-end");
+  pool.innerHTML += `
+      <div class="w-100 me-2">
+          <label class="form-label">Pool Name</label>
+          <input type="text" class="pool-name form-control" value="${
+            name || ""
+          }">
+      </div>
+      <div class="w-100 me-2">
+          <label class="form-label">Pool Team</label>
+          <input type="text" class="pool-team form-control" value="${
+            team || ""
+          }">
+      </div>
+      <button class="btn btn-danger delete-pool"><span class="material-symbols-outlined">delete</span></button>
+  `;
+  poolsElement.appendChild(pool);
+}
+
 const matchSwitch = document.getElementById("match-switch");
 const teams = document.getElementsByClassName("team-name");
 const team1ScoreInput = document.getElementById("team-1-score-input");
@@ -94,6 +116,7 @@ const substitutionTeamInput = document.getElementById(
 );
 const outgoingElement = document.getElementById("outgoing");
 const substituteElement = document.getElementById("substitute");
+const poolsSwitch = document.getElementById("pools-switch");
 
 // Update page on value change
 showSpinner();
@@ -102,38 +125,53 @@ onValue(ref(db, "/"), (snapshot) => {
   const data = snapshot.val();
   if (data.matchOff) {
     matchSwitch.checked = false;
-    accordion.classList.add("d-none");
   } else {
     matchSwitch.checked = true;
-    accordion.classList.remove("d-none");
-    if (data.teamNames && data.teamNames.length === 2) {
-      teams[0].value = data.teamNames[0];
-      teams[1].value = data.teamNames[1];
+  }
 
-      const teamNameH3 = document.getElementsByClassName("team-name-h3");
-      teamNameH3[0].textContent = data.teamNames[0];
-      teamNameH3[1].textContent = data.teamNames[1];
-    }
-    if (data.goals1) {
-      team1ScoreInput.value = data.goals1;
-    } else {
-      team1ScoreInput.value = 0;
-    }
-    if (data.goals2) {
-      team2ScoreInput.value = data.goals2;
-    } else {
-      team2ScoreInput.value = 0;
-    }
+  if (data.teamNames && data.teamNames.length === 2) {
+    teams[0].value = data.teamNames[0];
+    teams[1].value = data.teamNames[1];
 
-    if (data.showSubstitution) {
-      substitutionTeamInput.value = data.substitutionTeam;
-      outgoingElement.value = data.outgoing;
-      substituteElement.value = data.substitute;
+    const teamNameH3 = document.getElementsByClassName("team-name-h3");
+    teamNameH3[0].textContent = data.teamNames[0];
+    teamNameH3[1].textContent = data.teamNames[1];
+  }
+
+  if (data.goals1) {
+    team1ScoreInput.value = data.goals1;
+  } else {
+    team1ScoreInput.value = 0;
+  }
+
+  if (data.goals2) {
+    team2ScoreInput.value = data.goals2;
+  } else {
+    team2ScoreInput.value = 0;
+  }
+
+  if (data.showSubstitution) {
+    substitutionTeamInput.value = data.substitutionTeam;
+    outgoingElement.value = data.outgoing;
+    substituteElement.value = data.substitute;
+  }
+
+  if (data.showPools) {
+    poolsSwitch.checked = true;
+  } else {
+    poolsSwitch.checked = false;
+  }
+
+
+  if (data.pools && data.pools.length > 0) {
+    poolsElement.innerHTML = "";
+    for (const pool of data.pools) {
+      addPool(pool.name, pool.team);
     }
   }
 });
 
-// Toggle matchOff on match switch
+// Show/hide scoreboard
 matchSwitch.addEventListener(
   "change",
   () => {
@@ -414,6 +452,77 @@ showCustomAnimation.addEventListener(
     } else {
       showToast("Please enter a message", true);
     }
+  },
+  false
+);
+
+// Add pool
+const addPoolBtn = document.getElementById("add-pool");
+addPoolBtn.addEventListener("click", () => addPool(), false);
+
+// Delete pool
+poolsElement.addEventListener(
+  "click",
+  (event) => {
+    const target = event.target;
+    if (target.classList.contains("delete-pool")) {
+      const pool = target.parentElement;
+      poolsElement.removeChild(pool);
+    }
+  },
+  false
+);
+
+// Show/Hide pools
+poolsSwitch.addEventListener(
+  "change",
+  () => {
+    showSpinner();
+    update(ref(db), {
+      showPools: poolsSwitch.checked,
+    })
+      .then(() => {
+        hideSpinner();
+        if (poolsSwitch.checked) {
+          showToast("Pools shown!");
+        } else {
+          showToast("Pools hidden!");
+        }
+      })
+      .catch(() => {
+        hideSpinner();
+        showToast("An error occurred", true);
+      });
+  },
+  false
+);
+
+// Update pools
+const updatePoolTeams = document.getElementById("update-pool-teams");
+updatePoolTeams.addEventListener(
+  "click",
+  () => {
+    const pools = document.getElementsByClassName("pool");
+    const poolsData = [];
+    for (const pool of pools) {
+      const name = pool.querySelector(".pool-name").value.trim();
+      const team = pool.querySelector(".pool-team").value.trim();
+      if (!name || !team) {
+        showToast('Please do not leave pool fields blank', true);
+        return;
+      }
+      poolsData.push({ name: name, team: team });
+    }
+    showSpinner();
+    set(ref(db, "pools"), poolsData)
+      .then(() => {
+        hideSpinner();
+        showToast("Pools updated!");
+      })
+      .catch(() => {
+        hideSpinner();
+        showToast("An error occurred", true);
+      });
   },
   false
 );
