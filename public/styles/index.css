@@ -230,7 +230,7 @@ h3 {
     justify-content: center;
 }
 
-#pools-container {
+#qualifying-teams-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -243,32 +243,29 @@ h3 {
     z-index: 3;
 }
 
-#pools {
+#qualifying-teams {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     overflow-y: auto;
+    margin-top: .5em;
 }
 
-.pool {
+#qualifying-heading {
+    -webkit-text-stroke: 0px;
+    font-family: 'Raleway', sans-serif;
+    color: #FF5733;
+}
+
+.qualifying-team {
     width: 40%;
-    margin: .5em;
-}
-
-.pool-heading, .pool-p {
+    margin: .1em;
     -webkit-text-stroke: 0px;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    font-size: 5vh;
-}
-
-#pools-heading, .pool-heading {
-    color: #c0ff00;
-    -webkit-text-stroke: 0px;
-}
-
-.pool-p {
-    border: 3px solid #c0ff00;
+    font-size: 9vh;
+    color: #FF5733;
+    border: 3px solid #FF5733;
     border-radius: 5px;
     padding: .1em;
 }
@@ -343,7 +340,7 @@ h3 {
         font-size: 3.5rem;
     }
 
-    .pool {
+    .qualifying-team {
         width: 100%;
     }
 }

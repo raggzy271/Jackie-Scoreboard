@@ -107,6 +107,44 @@ onValue(ref(db, "/"), (snapshot) => {
             </div>
           `;
       }, 5000);
+    } else if (data.animation === "match-countdown") {
+      animationContainer.innerHTML = `
+        <div id="animation" class="animate__animated animate__fadeIn animate__fast blue-bg">
+          <div id="animation-content">
+              <div id="animation-text" class="animate__animated animate__fadeIn animate__fast">
+                <div>
+                  <span class="animate__animated animate__zoomInDown animate__fast">MATCH BEGINS IN</span>
+                  00:<span id="match-countdown-timer">10</span>
+                </div>
+              </div>
+          </div>
+        </div>
+      `;
+      // Remove animation after 10 seconds
+      setTimeout(() => {
+        animationContainer.innerHTML = `
+        <div id="animation" class="animate__animated animate__fadeOut animate__fast blue-bg">
+          <div id="animation-content">
+              <div id="animation-text" class="animate__animated animate__fadeOut animate__fast">
+                <div>
+                  <span class="animate__animated animate__zoomOutDown animate__fast">MATCH BEGINS IN</span>
+                  00:00
+                </div>
+              </div>
+          </div>
+        </div>
+      `;
+      }, 10000);
+
+      setInterval(() => {
+        const timer = document.getElementById("match-countdown-timer");
+        const time = parseInt(timer.textContent);
+        if (time > 0) {
+          const newTime = time - 1;
+          const newTimeStr = newTime.toString().padStart(2, '0');
+          timer.textContent = newTimeStr;
+        }
+      }, 1000);
     } else {
       var bg = "blue-bg";
       if (
@@ -155,24 +193,29 @@ onValue(ref(db, "/"), (snapshot) => {
     }
   }
 
-  // Show/hide pools
-  const poolsContainer = document.getElementById("pools-container");
-  if (data.showPools) {
-    poolsContainer.style.display = "flex";
+  // Show/hide qualify teams
+  const qualifyingTeamsContainer = document.getElementById(
+    "qualifying-teams-container"
+  );
+  if (data.showQualifyingTeams) {
+    qualifyingTeamsContainer.style.display = "flex";
   } else {
-    poolsContainer.style.display = "none";
+    qualifyingTeamsContainer.style.display = "none";
   }
 
-  const pools = document.getElementById("pools");
-  pools.innerHTML = "";
-  if (data.pools && data.pools.length > 0) {
-    for (const pool of data.pools) {
-      pools.innerHTML += `
-    <div class="pool">
-        <h2 class="pool-heading">${pool.name}</h2>
-        <p class="pool-p">${pool.team}</p>
-    </div>
-    `;
+  // Show qualifying heading
+  const qualifyingHeading = document.getElementById("qualifying-heading");
+  if (data.qualifyingHeading) {
+    qualifyingHeading.textContent = data.qualifyingHeading;
+  } else {
+    qualifyingHeading.textContent = "";
+  }
+
+  const qualifyingTeams = document.getElementById("qualifying-teams");
+  qualifyingTeams.innerHTML = "";
+  if (data.qualifyingTeams && data.qualifyingTeams.length > 0) {
+    for (const qualifyingTeam of data.qualifyingTeams) {
+      qualifyingTeams.innerHTML += `<div class="qualifying-team">${qualifyingTeam}</div>`;
     }
   }
 });
