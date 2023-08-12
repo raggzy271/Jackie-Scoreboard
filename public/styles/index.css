@@ -117,18 +117,24 @@ h3 {
     max-height: 100%;
 }
 
-#substitution-container {
+#substitution-container, #lead-scorer-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: #000000e6;
     display: none;
     z-index: 5;
 }
 
-#substitution-header {
+#lead-scorer-container {
+    /* display: flex; */
+    justify-content: center;
+    flex-direction: column;
+}
+
+#substitution-header, #lead-scorer-header {
     padding-top: .1em;
 }
 
@@ -137,7 +143,7 @@ h3 {
     color: #ffff00;
 }
 
-#substitution-team {
+#substitution-team, #lead-scorer-goals-scored {
     font-size: 17vh;
 }
 
@@ -152,7 +158,7 @@ h3 {
     justify-content: center;
 }
 
-.substitution-subheading {
+.substitution-subheading, #lead-scorer-goals-scored {
     font-weight: 800;
 }
 
@@ -230,6 +236,11 @@ h3 {
     justify-content: center;
 }
 
+#animation-text.orange-big-text {
+    color: #FF5733;
+    font-size: 40vh;
+}
+
 #qualifying-teams-container {
     position: fixed;
     top: 0;
@@ -305,7 +316,7 @@ h3 {
         -webkit-text-stroke: 1px #000;
     }
 
-    #substitution-container {
+    #substitution-container, #lead-scorer-container {
         display: none !important;
     }
 

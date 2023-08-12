@@ -611,7 +611,7 @@ const showCountdown = document.getElementById("show-countdown");
 showCountdown.addEventListener(
   "click",
   () => {
-    showAnimation("match-countdown", 10000);
+    showAnimation("match-countdown", 16000);
   },
   false
 );

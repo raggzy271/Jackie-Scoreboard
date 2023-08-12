@@ -111,40 +111,37 @@ onValue(ref(db, "/"), (snapshot) => {
       animationContainer.innerHTML = `
         <div id="animation" class="animate__animated animate__fadeIn animate__fast blue-bg">
           <div id="animation-content">
-              <div id="animation-text" class="animate__animated animate__fadeIn animate__fast">
-                <div>
-                  <span class="animate__animated animate__zoomInDown animate__fast">MATCH BEGINS IN</span>
-                  00:<span id="match-countdown-timer">10</span>
-                </div>
+              <div id="animation-text" class="animate__animated animate__fadeIn animate__fast orange-big-text">
+                  <span id="match-countdown-timer">10</span>
               </div>
           </div>
         </div>
       `;
-      // Remove animation after 10 seconds
+      // Remove animation after 16 seconds
       setTimeout(() => {
         animationContainer.innerHTML = `
         <div id="animation" class="animate__animated animate__fadeOut animate__fast blue-bg">
           <div id="animation-content">
-              <div id="animation-text" class="animate__animated animate__fadeOut animate__fast">
-                <div>
-                  <span class="animate__animated animate__zoomOutDown animate__fast">MATCH BEGINS IN</span>
-                  00:00
-                </div>
+              <div id="animation-text" class="animate__animated animate__fadeOut animate__fast orange-big-text">
+                LET'S PLAY
               </div>
           </div>
         </div>
       `;
-      }, 10000);
+      }, 16000);
 
       setInterval(() => {
         const timer = document.getElementById("match-countdown-timer");
         const time = parseInt(timer.textContent);
-        if (time > 0) {
+        if (time > 1) {
           const newTime = time - 1;
-          const newTimeStr = newTime.toString().padStart(2, '0');
+          const newTimeStr = newTime.toString();
           timer.textContent = newTimeStr;
         }
-      }, 1000);
+        else {
+          timer.textContent = "LET'S PLAY";
+        }
+      }, 1500);
     } else {
       var bg = "blue-bg";
       if (
