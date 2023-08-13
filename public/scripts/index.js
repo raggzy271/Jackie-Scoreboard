@@ -117,7 +117,7 @@ onValue(ref(db, "/"), (snapshot) => {
           </div>
         </div>
       `;
-      // Remove animation after 16 seconds
+      // Remove animation after 33 seconds
       setTimeout(() => {
         animationContainer.innerHTML = `
         <div id="animation" class="animate__animated animate__fadeOut animate__fast blue-bg">
@@ -128,7 +128,7 @@ onValue(ref(db, "/"), (snapshot) => {
           </div>
         </div>
       `;
-      }, 16000);
+      }, 33000);
 
       setInterval(() => {
         const timer = document.getElementById("match-countdown-timer");
@@ -137,11 +137,10 @@ onValue(ref(db, "/"), (snapshot) => {
           const newTime = time - 1;
           const newTimeStr = newTime.toString();
           timer.textContent = newTimeStr;
-        }
-        else {
+        } else {
           timer.textContent = "LET'S PLAY";
         }
-      }, 1500);
+      }, 3000);
     } else {
       var bg = "blue-bg";
       if (
