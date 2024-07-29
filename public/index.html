@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jackie Scoreboard</title>
+    <title>SGC Scoreboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap" rel="stylesheet">
@@ -16,9 +16,9 @@
 <body>
     <main>
         <header>
-            <img src="images/sgc-logo.jpg" alt="" class="sgc-logo">
-            <h1>50<sup>th</sup> JACKIE FOOTBALL TOURNAMENT</h1>
-            <img src="images/jackie-logo.png" alt="" class="jackie-logo">
+            <img src="images/sgc-logo.png" alt="" class="sgc-logo">
+            <h1 id="main-heading">ST. GEORGE'S COLLEGE</h1>
+            <img src="images/cup-logo.png" alt="" class="cup-logo">
         </header>
         <section id="scores">
             <div class="team">
@@ -34,13 +34,13 @@
         </section>
     </main>
     <div id="off-match">
-        <img src="images/off-match-jackie-logo.png" alt="" id="off-match-jackie-logo">
+        <img src="images/cup-logo.png" alt="" id="off-match-cup-logo">
     </div>
     <div id="substitution-container">
         <header id="substitution-header">
-            <img src="images/sgc-logo.jpg" alt="" class="sgc-logo small-logo">
+            <img src="images/sgc-logo.png" alt="" class="sgc-logo small-logo">
             <h1 id="substitution-heading">SUBSTITUTION</h1>
-            <img src="images/jackie-logo.png" alt="" class="jackie-logo small-logo">
+            <img src="images/cup-logo.png" alt="" class="cup-logo small-logo">
         </header>
         <h2 id="substitution-team"></h2>
         <div id="substitution">
@@ -57,12 +57,13 @@
     <div id="animation-container"></div>
     <div id="qualifying-teams-container">
         <header>
-            <img src="images/sgc-logo.jpg" alt="" class="sgc-logo small-logo">
+            <img src="images/sgc-logo.png" alt="" class="sgc-logo small-logo">
             <h1 id="qualifying-heading"></h1>
-            <img src="images/jackie-logo.png" alt="" class="jackie-logo small-logo">
+            <img src="images/cup-logo.png" alt="" class="cup-logo small-logo">
         </header>
         <div id="qualifying-teams"></div>
     </div>
+    <script src="scripts/firebase.js" type="module"></script>
     <script src="scripts/index.js" type="module"></script>
 </body>
 

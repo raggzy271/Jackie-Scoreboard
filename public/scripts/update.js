@@ -1,6 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
-  getDatabase,
   set,
   ref,
   get,
@@ -10,26 +8,10 @@ import {
   onValue,
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
 import {
-  getAuth,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+import { auth, db } from "./firebase.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDe5JT2xVK-_a7Jm8KZPBGA_gx_x7dFa3o",
-  authDomain: "jackie-scoreboard.firebaseapp.com",
-  databaseURL:
-    "https://jackie-scoreboard-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "jackie-scoreboard",
-  storageBucket: "jackie-scoreboard.appspot.com",
-  messagingSenderId: "952592407267",
-  appId: "1:952592407267:web:05aa21739ff06eb4ebc3d6",
-  measurementId: "G-SFH7SREZ1C",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
   if (user) {
     document.body.classList.remove("d-none");
@@ -38,7 +20,6 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-const db = getDatabase(app);
 const dbRef = ref(db);
 
 const spinner = document.getElementById("spinner-container");
@@ -99,6 +80,7 @@ function addQualifyingTeam(team) {
 }
 
 const matchSwitch = document.getElementById("match-switch");
+const mainHeading = document.getElementById("main-heading-input")
 const teams = document.getElementsByClassName("team-name");
 const team1ScoreInput = document.getElementById("team-1-score-input");
 const team2ScoreInput = document.getElementById("team-2-score-input");
@@ -111,9 +93,6 @@ const qualifyingHeading = document.getElementById("qualifying-heading");
 const qualifyingTeamsSwitch = document.getElementById(
   "qualifying-teams-switch"
 );
-const leadScorerSwitch = document.getElementById("lead-scorer-switch");
-const leadScorerName = document.getElementById("lead-scorer-name");
-const leadScorerGoals = document.getElementById("lead-scorer-goals");
 
 // Update page on value change
 showSpinner();
@@ -124,6 +103,10 @@ onValue(ref(db, "/"), (snapshot) => {
     matchSwitch.checked = false;
   } else {
     matchSwitch.checked = true;
+  }
+
+  if (data.mainHeading) {
+    mainHeading.value = data.mainHeading;
   }
 
   if (data.teamNames && data.teamNames.length === 2) {
@@ -171,19 +154,6 @@ onValue(ref(db, "/"), (snapshot) => {
       addQualifyingTeam(qualifyingTeam);
     }
   }
-
-  if (data.showLeadScorer) {
-    leadScorerSwitch.checked = true;
-  } else {
-    leadScorerSwitch.checked = false;
-  }
-
-  if (data.leadScorerName) {
-    leadScorerName.value = data.leadScorerName;
-  }
-  if (data.leadScorerGoals) {
-    leadScorerGoals.value = data.leadScorerGoals;
-  }
 });
 
 // Show/hide scoreboard
@@ -201,6 +171,30 @@ matchSwitch.addEventListener(
         } else {
           showToast("Scoreboard hidden!");
         }
+      })
+      .catch(() => {
+        hideSpinner();
+        showToast("An error occurred", true);
+      });
+  },
+  false
+);
+
+// Update main heading
+const updateMainHeading = document.getElementById("update-main-heading");
+updateMainHeading.addEventListener(
+  "click",
+  () => {
+    const heading = mainHeading.value.trim();
+    if (heading === "") {
+      showToast("Main heading cannot be empty", true);
+      return;
+    }
+    showSpinner();
+    set(ref(db, "mainHeading"), heading)
+      .then(() => {
+        hideSpinner();
+        showToast("Main heading updated!");
       })
       .catch(() => {
         hideSpinner();
@@ -550,58 +544,6 @@ updateQualifyingTeams.addEventListener(
         hideSpinner();
         showToast("An error occurred", true);
       });
-  },
-  false
-);
-
-// Show/Hide lead scorer
-leadScorerSwitch.addEventListener(
-  "change",
-  () => {
-    showSpinner();
-    update(ref(db), {
-      showLeadScorer: leadScorerSwitch.checked,
-    })
-      .then(() => {
-        hideSpinner();
-        if (leadScorerSwitch.checked) {
-          showToast("Lead scorer shown!");
-        } else {
-          showToast("Lead scorer hidden!");
-        }
-      })
-      .catch(() => {
-        hideSpinner();
-        showToast("An error occurred", true);
-      });
-  },
-  false
-);
-
-// Update lead scorer
-const updateLeadScorer = document.getElementById("update-lead-scorer");
-updateLeadScorer.addEventListener(
-  "click",
-  () => {
-    const name = leadScorerName.value.trim();
-    const goals = leadScorerGoals.value.trim();
-    if (!name || !goals) {
-      showToast("Please enter the lead scorer's name & goals scored", true);
-    } else {
-      showSpinner();
-      update(ref(db), {
-        leadScorerName: name,
-        leadScorerGoals: goals,
-      })
-        .then(() => {
-          hideSpinner();
-          showToast("Lead Scorer updated!");
-        })
-        .catch(() => {
-          hideSpinner();
-          showToast("An error occurred", true);
-        });
-    }
   },
   false
 );

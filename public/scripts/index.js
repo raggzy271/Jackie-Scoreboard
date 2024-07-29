@@ -1,25 +1,9 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import {
-  getDatabase,
   ref,
   onValue,
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js";
+import { db } from "./firebase.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDe5JT2xVK-_a7Jm8KZPBGA_gx_x7dFa3o",
-  authDomain: "jackie-scoreboard.firebaseapp.com",
-  databaseURL:
-    "https://jackie-scoreboard-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "jackie-scoreboard",
-  storageBucket: "jackie-scoreboard.appspot.com",
-  messagingSenderId: "952592407267",
-  appId: "1:952592407267:web:05aa21739ff06eb4ebc3d6",
-  measurementId: "G-SFH7SREZ1C",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
 
 // Update page on value change
 onValue(ref(db, "/"), (snapshot) => {
@@ -31,6 +15,12 @@ onValue(ref(db, "/"), (snapshot) => {
     offMatch.style.display = "flex";
   } else {
     offMatch.style.display = "none";
+  }
+
+  // Update main heading
+  const mainHeading = document.getElementById("main-heading");
+  if (data.mainHeading) {
+    mainHeading.textContent = data.mainHeading;
   }
 
   // Update team names
