@@ -43,6 +43,12 @@ onValue(ref(db, "/"), (snapshot) => {
     scores[1].textContent = 0;
   }
 
+  // Update half-text
+  const halfText = document.getElementById("half-text");
+  if (data.halfText) {
+    halfText.textContent = data.halfText;
+  }
+
   // Show substitution
   const substitutionTeam = document.getElementById("substitution-team");
   if (data.substitutionTeam) {

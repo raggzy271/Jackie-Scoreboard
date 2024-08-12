@@ -51,6 +51,7 @@ sup {
 
 #scores {
     display: flex;
+    position: relative;
 }
 
 .team {
@@ -74,6 +75,18 @@ h2 {
 h3 {
     font-size: 7.25vh;
     -webkit-text-stroke: 3px #000;
+}
+
+#half-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 7.25vh;
+    font-weight: 700;
+    -webkit-text-stroke: 3px #000;
+    color: #c0ff00;
+    text-transform: uppercase;
 }
 
 
@@ -314,6 +327,10 @@ h3 {
     h3 {
         font-size: 2rem;
         -webkit-text-stroke: 1px #000;
+    }
+
+    #half-text {
+        display: none;
     }
 
     #substitution-container, #lead-scorer-container {

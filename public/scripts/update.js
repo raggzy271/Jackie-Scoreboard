@@ -89,6 +89,7 @@ const substitutionTeamInput = document.getElementById(
 );
 const outgoingElement = document.getElementById("outgoing");
 const substituteElement = document.getElementById("substitute");
+const halves = document.getElementsByClassName("half");
 const qualifyingHeading = document.getElementById("qualifying-heading");
 const qualifyingTeamsSwitch = document.getElementById(
   "qualifying-teams-switch"
@@ -134,6 +135,12 @@ onValue(ref(db, "/"), (snapshot) => {
     substitutionTeamInput.value = data.substitutionTeam;
     outgoingElement.value = data.outgoing;
     substituteElement.value = data.substitute;
+  }
+
+  if (data.halfText) {
+    for (const half of halves) {
+      half.checked = data.halfText === half.value;
+    }
   }
 
   if (data.qualifyingHeading) {
@@ -395,6 +402,34 @@ showSubstitution.addEventListener(
       .then(() => {
         hideSpinner();
         showToast("Substitution Shown!");
+      })
+      .catch(() => {
+        hideSpinner();
+        showToast("An error occurred", true);
+      });
+  },
+  false
+);
+
+// Update half
+const updateHalf = document.getElementById("update-half");
+updateHalf.addEventListener(
+  "click",
+  () => {
+    showSpinner();
+    let halfText = "";
+    for (const half of halves) {
+      if (half.checked) {
+        halfText = half.value;
+        break;
+      }
+    }
+    update(dbRef, {
+      halfText: halfText,
+    })
+      .then(() => {
+        hideSpinner();
+        showToast("Half updated!");
       })
       .catch(() => {
         hideSpinner();
