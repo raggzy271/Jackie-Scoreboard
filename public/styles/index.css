@@ -19,25 +19,28 @@ body {
 
 main {
     padding: 1em;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
     height: 100%;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
 .sgc-logo {
-    width: 17vw;
+    width: 13vw;
     /* margin-right: 1.5em; */
 }
 
 .cup-logo {
     width: 13vw;
-    margin-left: 1.5em;
+    /* margin-left: 1.5em; */
 }
 
 h1 {
@@ -83,13 +86,24 @@ h3 {
     top: 60%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 7.25vh;
+    font-size: 6vh;
     font-weight: 700;
+    -webkit-text-stroke: 3px #000;
+    color: #fe009b;
+    text-transform: uppercase;
+}
+
+#stage-text {
+    font-weight: 800;
+    font-size: 7.25vh;
     -webkit-text-stroke: 3px #000;
     color: #c0ff00;
     text-transform: uppercase;
 }
 
+#stage-text:empty {
+    display: none;
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -131,7 +145,7 @@ h3 {
     max-height: 100%;
 }
 
-#substitution-container, #lead-scorer-container {
+#substitution-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -139,16 +153,12 @@ h3 {
     height: 100%;
     background-color: #000000e6;
     display: none;
+    flex-direction: column;
+    justify-content: center;
     z-index: 5;
 }
 
-#lead-scorer-container {
-    /* display: flex; */
-    justify-content: center;
-    flex-direction: column;
-}
-
-#substitution-header, #lead-scorer-header {
+#substitution-header {
     padding-top: .1em;
 }
 
@@ -157,7 +167,7 @@ h3 {
     color: #ffff00;
 }
 
-#substitution-team, #lead-scorer-goals-scored {
+#substitution-team {
     font-size: 17vh;
 }
 
@@ -172,7 +182,7 @@ h3 {
     justify-content: center;
 }
 
-.substitution-subheading, #lead-scorer-goals-scored {
+.substitution-subheading {
     font-weight: 800;
 }
 
@@ -288,7 +298,7 @@ h3 {
     -webkit-text-stroke: 0px;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    font-size: 9vh;
+    font-size: 8.5vh;
     color: #FF5733;
     border: 3px solid #FF5733;
     border-radius: 5px;
@@ -334,7 +344,11 @@ h3 {
         display: none;
     }
 
-    #substitution-container, #lead-scorer-container {
+    #stage-text {
+        display: none;
+    }
+
+    #substitution-container {
         display: none !important;
     }
 

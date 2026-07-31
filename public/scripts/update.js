@@ -82,6 +82,7 @@ function addQualifyingTeam(team) {
 const matchSwitch = document.getElementById("match-switch");
 const mainHeading = document.getElementById("main-heading-input")
 const teams = document.getElementsByClassName("team-name");
+const stageTextInput = document.getElementById("stage-text-input");
 const team1ScoreInput = document.getElementById("team-1-score-input");
 const team2ScoreInput = document.getElementById("team-2-score-input");
 const substitutionTeamInput = document.getElementById(
@@ -117,7 +118,20 @@ onValue(ref(db, "/"), (snapshot) => {
     const teamNameH3 = document.getElementsByClassName("team-name-h3");
     teamNameH3[0].textContent = data.teamNames[0];
     teamNameH3[1].textContent = data.teamNames[1];
+
+    // Populate substitution team dropdown with the team names
+    const currentSubTeam = substitutionTeamInput.value;
+    substitutionTeamInput.innerHTML = "";
+    for (const teamName of data.teamNames) {
+      const option = document.createElement("option");
+      option.value = teamName;
+      option.textContent = teamName;
+      substitutionTeamInput.appendChild(option);
+    }
+    substitutionTeamInput.value = currentSubTeam;
   }
+
+  stageTextInput.value = data.stageText || "";
 
   if (data.goals1) {
     team1ScoreInput.value = data.goals1;
@@ -226,7 +240,10 @@ updateTeamNames.addEventListener(
       teamNames.push(teams[i].value);
     }
     showSpinner();
-    set(ref(db, "teamNames"), [teams[0].value, teams[1].value])
+    update(dbRef, {
+      teamNames: [teams[0].value, teams[1].value],
+      stageText: stageTextInput.value.trim(),
+    })
       .then(() => {
         hideSpinner();
         showToast("Team names updated!");
@@ -378,7 +395,7 @@ showSubstitution.addEventListener(
   () => {
     const team = substitutionTeamInput.value;
     if (team === "") {
-      showToast("Please enter the substitution team", true);
+      showToast("Please set the team names first", true);
       return;
     }
     const outgoing = outgoingElement.value.trim();

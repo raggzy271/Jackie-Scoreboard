@@ -20,7 +20,10 @@ onValue(ref(db, "/"), (snapshot) => {
   // Update main heading
   const mainHeading = document.getElementById("main-heading");
   if (data.mainHeading) {
-    mainHeading.textContent = data.mainHeading;
+    mainHeading.innerHTML = data.mainHeading
+      .split("\n")
+      .map((line) => line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"))
+      .join("<br />");
   }
 
   // Update team names
@@ -46,7 +49,15 @@ onValue(ref(db, "/"), (snapshot) => {
   // Update half-text
   const halfText = document.getElementById("half-text");
   if (data.halfText) {
-    halfText.textContent = data.halfText;
+    halfText.innerHTML = data.halfText;
+  }
+
+  // Update stage-text (optional, e.g. Final, Semi-Final)
+  const stageText = document.getElementById("stage-text");
+  if (data.stageText) {
+    stageText.textContent = data.stageText;
+  } else {
+    stageText.textContent = "";
   }
 
   // Show substitution
@@ -69,7 +80,7 @@ onValue(ref(db, "/"), (snapshot) => {
     "substitution-container"
   );
   if (data.showSubstitution) {
-    substitutionContainer.style.display = "block";
+    substitutionContainer.style.display = "flex";
   } else {
     substitutionContainer.style.display = "none";
   }
