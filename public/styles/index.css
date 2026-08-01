@@ -55,6 +55,8 @@ sup {
 #scores {
     display: flex;
     position: relative;
+    justify-content: space-between;
+    gap: 100px;
 }
 
 .team {
@@ -64,16 +66,18 @@ sup {
     align-items: center;
 }
 
-
 h2 {
     font-size: 20vh;
     font-weight: 900;
+    letter-spacing: 0.01em;
+    line-height: 1em;
 }
 
 .score {
     width: 33vh;
     font-size: 30vh;
     line-height: 1em;
+    margin: 0;
 }
 
 h3 {
@@ -86,10 +90,10 @@ h3 {
     top: 60%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 6vh;
+    font-size: 7vh;
     font-weight: 700;
     -webkit-text-stroke: 3px #000;
-    color: #fe009b;
+    color: #c0ff00;
     text-transform: uppercase;
 }
 
