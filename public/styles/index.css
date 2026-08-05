@@ -59,6 +59,17 @@ sup {
     gap: 100px;
 }
 
+/* clip region between the two score boxes */
+#half-text-clip {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(25% + 16.5vh);
+    right: calc(25% + 16.5vh);
+    overflow: hidden;
+    pointer-events: none;
+}
+
 .team {
     width: 50%;
     display: flex;
@@ -85,6 +96,11 @@ h3 {
     -webkit-text-stroke: 3px #000;
 }
 
+@keyframes halfTextTicker {
+    from { transform: translateX(50vw); }
+    to   { transform: translateX(calc(-50vw - 100%)); }
+}
+
 #half-text {
     position: absolute;
     top: 60%;
@@ -95,6 +111,7 @@ h3 {
     -webkit-text-stroke: 3px #000;
     color: #c0ff00;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 #stage-text {
@@ -313,6 +330,10 @@ h3 {
 @media (max-width: 900px) {
     body {
         -webkit-text-stroke: 1px #000;
+    }
+
+    header {
+        justify-content: center;
     }
 
     .sgc-logo,

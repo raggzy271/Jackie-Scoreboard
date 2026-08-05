@@ -50,6 +50,12 @@ onValue(ref(db, "/"), (snapshot) => {
   const halfText = document.getElementById("half-text");
   if (data.halfText) {
     halfText.innerHTML = data.halfText;
+    halfText.style.animation = "none";
+    void halfText.offsetWidth; // force reflow to restart animation
+    halfText.style.animation = "halfTextTicker 4s linear infinite";
+  } else {
+    halfText.innerHTML = "";
+    halfText.style.animation = "none";
   }
 
   // Update stage-text (optional, e.g. Final, Semi-Final)
