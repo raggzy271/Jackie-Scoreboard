@@ -32,6 +32,7 @@ onValue(ref(db, "/"), (snapshot) => {
     teamNames[0].textContent = data.teamNames[0];
     teamNames[1].textContent = data.teamNames[1];
   }
+  fitTeamNames();
 
   // Update scores
   const scores = document.getElementsByClassName("score");
@@ -46,13 +47,17 @@ onValue(ref(db, "/"), (snapshot) => {
     scores[1].textContent = 0;
   }
 
+  // Keep the ticker clipped to the gap between the two score boxes so it never
+  // overlaps them, even when a score grows to two digits.
+  updateHalfTextClip(scores);
+
   // Update half-text
   const halfText = document.getElementById("half-text");
   if (data.halfText) {
     halfText.innerHTML = data.halfText;
     halfText.style.animation = "none";
     void halfText.offsetWidth; // force reflow to restart animation
-    halfText.style.animation = "halfTextTicker 4s linear infinite";
+    halfText.style.animation = "halfTextTicker 9s linear infinite";
   } else {
     halfText.innerHTML = "";
     halfText.style.animation = "none";
@@ -227,4 +232,39 @@ onValue(ref(db, "/"), (snapshot) => {
       qualifyingTeams.innerHTML += `<div class="qualifying-team">${qualifyingTeam}</div>`;
     }
   }
+});
+
+// Position the ticker clip in the gap between the two score boxes. Each side is
+// inset by half of its own box, so the clip spans the real gap and stays
+// centered even when the two scores have different widths.
+function updateHalfTextClip(scores) {
+  const clip = document.getElementById("half-text-clip");
+  if (!clip || !scores || scores.length < 2) return;
+  clip.style.left = `calc(25% + ${scores[0].offsetWidth / 2}px + 1vw)`;
+  clip.style.right = `calc(25% + ${scores[1].offsetWidth / 2}px + 1vw)`;
+}
+
+// Shrink a team name until it fits within its column (names are variable length).
+function fitTeamName(el) {
+  const maxFont = Math.min(window.innerHeight * 0.2, window.innerWidth * 0.13);
+  let size = maxFont;
+  el.style.fontSize = size + "px";
+  while (el.scrollWidth > el.clientWidth && size > 12) {
+    size -= 1;
+    el.style.fontSize = size + "px";
+  }
+  // Scale the outline with the font so small names aren't overly bold.
+  el.style.webkitTextStroke = `${(size * 0.025).toFixed(1)}px #000`;
+}
+
+function fitTeamNames() {
+  for (const name of document.getElementsByClassName("team-name")) {
+    fitTeamName(name);
+  }
+}
+
+// Reposition/refit on resize so everything stays aligned with the score boxes.
+window.addEventListener("resize", () => {
+  updateHalfTextClip(document.getElementsByClassName("score"));
+  fitTeamNames();
 });
